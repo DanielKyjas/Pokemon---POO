@@ -8,7 +8,6 @@ using namespace std;
 
 class Pokemon
 {
-private:
     //Atributos
     char nombre[15];
     char tipo[15];
