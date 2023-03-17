@@ -3,11 +3,12 @@
 
 #include <iostream>
 #include<windows.h> 
-
+#include<string>
 using namespace std;
 
 class Pokemon
 {
+protected:
     //Atributos
     char nombre[15];
     char tipo[15];
@@ -20,14 +21,14 @@ public:
     {
         strcpy_s(nombre, "squirtle");
         strcpy_s(tipo, "agua");
-        color = "azul" ;
+        color = "azul";
         ataque = 50;
         vida = 100;
     }
     Pokemon(char n[15], char t[15], string c, int a, int v)
     {
         strcpy_s(nombre, n);
-        strcpy_s(nombre, t);
+        strcpy_s(tipo, t);
         color = c;
         ataque = a;
         vida = v;
@@ -108,11 +109,23 @@ class PokemonAgua : public Pokemon
 {
     int tiempoAgua;
     int tiempoAire;
+
 public:
     PokemonAgua() :Pokemon()
     {
+        strcpy_s(tipo, "agua");
         tiempoAgua = 0;
         tiempoAire = 0;
+    }
+    PokemonAgua(int TA, int TAR, char n[15], char t[15], string c, int a, int v) : Pokemon(nombre, tipo, color, ataque, vida)
+    {
+        tiempoAgua = TA;
+        tiempoAire = TAR;
+        strcpy_s(nombre, n);
+        strcpy_s(tipo, t);
+        color = c;
+        ataque = a;
+        vida = v;
     }
     ~PokemonAgua()
     {
@@ -129,10 +142,10 @@ public:
         cout << "Tu pokemon ha nadado\n";
 
     }
-    int gettiempoAgua() { return tiempoAgua;  }
-    int gettiempoAire() { return tiempoAire;  }
-    void settiempoAgua(int TA) { tiempoAgua = 0;  }
-    void settiempoAire(int TAG) { tiempoAire = 0;  }
+    int gettiempoAgua() { return tiempoAgua; }
+    int gettiempoAire() { return tiempoAire; }
+    void settiempoAgua(int TA) { tiempoAgua = 0; }
+    void settiempoAire(int TAR) { tiempoAire = 0; }
 };
 class PokemonPlanta : public Pokemon
 {
@@ -141,10 +154,20 @@ class PokemonPlanta : public Pokemon
 public:
     PokemonPlanta() :Pokemon()
     {
-        tiempoVida = 5;
+        tiempoVida = 5000;
         Olor = "pasto";
         strcpy_s(tipo, "planta");
         color = "verde";
+    }
+    PokemonPlanta(int TV, string o, char n[15], char t[15], string c, int a, int v) : Pokemon(nombre, tipo, color, ataque, vida)
+    {
+        tiempoVida = TV;
+        Olor = o;
+        strcpy_s(nombre, n);
+        strcpy_s(tipo, t);
+        color = c;
+        ataque = a;
+        vida = v;
     }
     ~PokemonPlanta()
     {
@@ -152,14 +175,14 @@ public:
     }
     void mostrarPP()
     {
-        cout << "El tiempo que tarda tu pokemon en curarse es de " << tiempoVida << " segundos\n";
+        cout << "El tiempo que tarda tu pokemon en curarse es de " << tiempoVida/1000 << " segundos\n";
         cout << "Tu pokemon huele a " << Olor << "\n";
     }
     void fotosintesis()
     {
         cout << "Tu pokemon se esta curando\n";
-        Sleep(5000);
-        vida = vida+50;
+        Sleep(tiempoVida);
+        vida = vida + 50;
         cout << "Tu pokemon se ha curado\n\n";
 
     }
@@ -172,12 +195,21 @@ class PokemonFuego : public Pokemon
 {
     int temperatura;
 
-public: 
+public:
     PokemonFuego() : Pokemon()
     {
         temperatura = 20;
         strcpy_s(tipo, "fuego");
         color = "rojo";
+    }
+    PokemonFuego(int temp, char n[15], char t[15], string c, int a, int v) : Pokemon(nombre, tipo, color, ataque, vida)
+    {
+        temperatura = temp;
+        strcpy_s(nombre, n);
+        strcpy_s(tipo, t);
+        color = c;
+        ataque = a;
+        vida = v;
     }
     ~PokemonFuego()
     {
@@ -190,9 +222,10 @@ public:
     void AumentarTemperatura()
     {
         temperatura += 30;
+        cout << "Tu pokemon aumento su temperatura\n";
     }
     int gettemperatura() { return temperatura; }
-    void settemperatura(int t) { temperatura = 20;  }
+    void settemperatura(int t) { temperatura = 20; }
 };
 class PokemonElectrico : public Pokemon
 {
@@ -207,6 +240,17 @@ public:
         potencia = 200;
         strcpy_s(tipo, "electrico");
         color = "amarillo";
+    }
+    PokemonElectrico(int vol, int cor, int po, char n[15], char t[15], string c, int a, int v) : Pokemon(nombre, tipo, color, ataque, vida)
+    {
+        voltaje = vol;
+        corriente = cor;
+        potencia = po;
+        strcpy_s(nombre, n);
+        strcpy_s(tipo, t);
+        color = c;
+        ataque = a;
+        vida = v;
     }
     ~PokemonElectrico()
     {
@@ -234,26 +278,15 @@ int main()
     char AuxPA[15];
     strcpy_s(AuxPA, "Greninja");
     char Auxt[15];
-    strcpy_s(Auxt, "planta");
+    strcpy_s(Auxt, "agua");
 
     Pokemon squirtle;
     squirtle.mostrar();
     squirtle.sanar();
-    Pokemon evolucion;
-    
-
-    char Nom[15];
-    char Tip[15];
-    strcpy_s(Nom, "Wartortle");
-    strcpy_s(Tip, "agua");
-    evolucion.setnombre(Nom);
-    evolucion.settipo(Tip);
-    evolucion.setcolor("azul");
-    evolucion.setataque(squirtle.ataque);
-    evolucion.mostrare();
 
     PokemonAgua Greninja;
     Greninja.setnombre(AuxPA);
+    Greninja.settipo(Auxt);
     Greninja.setataque(60);
     Greninja.setvida(120);
     Greninja.mostrar();
@@ -294,8 +327,5 @@ int main()
     Pikachu.mostrarPE();
 
 }
-
-
-
 
 
