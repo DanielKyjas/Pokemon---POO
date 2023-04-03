@@ -1,331 +1,484 @@
-// Pokemon - POO.cpp : Este archivo contiene la función "main". La ejecución del programa comienza y termina ahí.
+// BatallaPokemon2_POO.cpp : Este archivo contiene la función "main". La ejecución del programa comienza y termina ahí.
 //
 
 #include <iostream>
 #include<windows.h> 
 #include<string>
+#include <vector>
 using namespace std;
 
 class Pokemon
 {
-protected:
+    protected:
     //Atributos
-    char nombre[15];
-    char tipo[15];
+    string nombre;
+    string tipo;
     string color;
     int ataque;
     int vida;
-
+    int vida2;
 public:
     Pokemon()
     {
-        strcpy_s(nombre, "squirtle");
-        strcpy_s(tipo, "agua");
-        color = "azul";
-        ataque = 50;
+        nombre = "";
+        tipo = "";
+        color = "";
+        ataque = 20;
         vida = 100;
+        vida2 = vida;
     }
-    Pokemon(char n[15], char t[15], string c, int a, int v)
+    Pokemon(string name, string type, string Color, int attack, int healthpoints)
     {
-        strcpy_s(nombre, n);
-        strcpy_s(tipo, t);
-        color = c;
-        ataque = a;
-        vida = v;
+        nombre = name;
+        tipo = type;
+        color = Color;
+        ataque = attack;
+        vida = healthpoints;
+        vida2 = vida;
     }
     ~Pokemon()
     {
-        cout << "Tu pokemon " << nombre << " ha sido destruido\n";
+        
     }
-    void sanar()
-    {
-        vida = vida + 50;
-        cout << "Tu pokemon ha sido curado\nahora su vida es de " << vida << "\n\n";
 
-    }
-    void mostrar()
+    virtual void mostrar()
     {
-        cout << "Has invocado a un pokemon:\n";
         cout << "Su nombre es " << nombre << endl;
         cout << "Es tipo " << tipo << endl;
         cout << "De color " << color << endl;
         cout << "Con un ataque de " << ataque << " de danio" << endl;
-        cout << "Y tiene " << vida << " puntos de vida\n" << endl;
-
+        cout << "Y tiene " << vida << " puntos de vida" << endl;
     }
-    void mostrare()
+    virtual void mostrarContricante()
     {
-        cout << "Tu pokemon evoluciono:\n";
-        cout << "Su nombre es " << nombre << endl;
+        cout << "Tu contricante invoco a " << nombre << endl;
         cout << "Es tipo " << tipo << endl;
         cout << "De color " << color << endl;
-        cout << "Con un ataque de " << ataque * 1.30 << " de danio" << endl;
-        cout << "Y tiene " << vida << " puntos de vida\n" << endl;
-
+        cout << "Con un ataque de " << ataque << " de danio" << endl;
+        cout << "Y tiene " << vida << " puntos de vida" << endl;
     }
-    char* getnombre()
+    virtual void atacar()
     {
-        return nombre;
+        cout << "El pokemon ha atacado\n";
     }
-    void setnombre(char n[15])
+    virtual void atacarfuerte()
     {
-        strcpy_s(nombre, n);
+        cout << "El pokemon ha atacado fuerte\n";
     }
-    char* gettipo()
-    {
-        return tipo;
-    }
-    void settipo(char t[15])
-    {
-        strcpy_s(tipo, t);
-    }
-    string getcolor()
-    {
-        return color;
-    }
-    void setcolor(string c)
-    {
-        color = c;
-    }
-    int getataque()
-    {
-        return ataque;
-    }
-    void setataque(int a)
-    {
-        ataque = a;
-    }
-    int getvida()
-    {
-        return vida;
-    }
-    void setvida(int v)
-    {
-        vida = v;
-    }
+    string getnombre() { return nombre; }
+    void setnombre(string name) { nombre = name; }
+    string gettipo() { return tipo; }
+    void settipo(string type) { tipo = type; }
+    string getcolor() { return color; }
+    void setcolor(string Color) { color = Color; }
+    int getataque() { return ataque; }
+    void setataque(int attack) { ataque = attack; }
+    int getvida() { return vida; }
+    void setvida(int healthpoints) { vida = healthpoints; }
+    int getvida2() { return vida2; }
+    void setvida2(int statichealth) { vida2 = statichealth; }
 
 };
 class PokemonAgua : public Pokemon
 {
-    int tiempoAgua;
-    int tiempoAire;
-
 public:
     PokemonAgua() :Pokemon()
     {
-        strcpy_s(tipo, "agua");
-        tiempoAgua = 0;
-        tiempoAire = 0;
+        nombre = "hola";
+        tipo = "agua";
+        color = "azul";
+        ataque = 15;
+        vida = 90;
+        vida2 = vida;
     }
-    PokemonAgua(int TA, int TAR, char n[15], char t[15], string c, int a, int v) : Pokemon(nombre, tipo, color, ataque, vida)
+    PokemonAgua(string name, string type, string Color, int attack, int healthpoints) : Pokemon(nombre, tipo, color, ataque, vida)
     {
-        tiempoAgua = TA;
-        tiempoAire = TAR;
-        strcpy_s(nombre, n);
-        strcpy_s(tipo, t);
-        color = c;
-        ataque = a;
-        vida = v;
+        nombre = name;
+        tipo = type;
+        color = Color;
+        ataque = attack;
+        vida = healthpoints;
+        vida2 = vida;
     }
     ~PokemonAgua()
     {
-
+        
     }
-    void mostrarPA()
+    void atacar() override
     {
-        cout << "El tiempo que paso tu pokemon en el agua es de " << tiempoAgua << " segundos\n";
-        cout << "El tiempo que paso tu pokemon en el aire es de " << tiempoAire << " segundos\n\n";
+        ataque = 15;
+        cout << nombre << " ha usado torrente" << endl;
     }
-    void nadar()
+    void atacarfuerte() override
     {
-        tiempoAgua += 5;
-        cout << "Tu pokemon ha nadado\n";
-
+        ataque = 22;
+        cout << nombre << " ha usado tsunami" << endl;
     }
-    int gettiempoAgua() { return tiempoAgua; }
-    int gettiempoAire() { return tiempoAire; }
-    void settiempoAgua(int TA) { tiempoAgua = 0; }
-    void settiempoAire(int TAR) { tiempoAire = 0; }
-};
-class PokemonPlanta : public Pokemon
-{
-    int tiempoVida;
-    string Olor;
-public:
-    PokemonPlanta() :Pokemon()
-    {
-        tiempoVida = 5000;
-        Olor = "pasto";
-        strcpy_s(tipo, "planta");
-        color = "verde";
-    }
-    PokemonPlanta(int TV, string o, char n[15], char t[15], string c, int a, int v) : Pokemon(nombre, tipo, color, ataque, vida)
-    {
-        tiempoVida = TV;
-        Olor = o;
-        strcpy_s(nombre, n);
-        strcpy_s(tipo, t);
-        color = c;
-        ataque = a;
-        vida = v;
-    }
-    ~PokemonPlanta()
-    {
-
-    }
-    void mostrarPP()
-    {
-        cout << "El tiempo que tarda tu pokemon en curarse es de " << tiempoVida/1000 << " segundos\n";
-        cout << "Tu pokemon huele a " << Olor << "\n";
-    }
-    void fotosintesis()
-    {
-        cout << "Tu pokemon se esta curando\n";
-        Sleep(tiempoVida);
-        vida = vida + 50;
-        cout << "Tu pokemon se ha curado\n\n";
-
-    }
-    int gettiempoAgua() { return tiempoVida; }
-    string gettiempoAire() { return Olor; }
-    void settiempoAgua(int TA) { tiempoVida = 0; }
-    void settiempoAire(string TAG) { Olor = "paston m"; }
 };
 class PokemonFuego : public Pokemon
 {
-    int temperatura;
-
 public:
-    PokemonFuego() : Pokemon()
+    PokemonFuego() :Pokemon()
     {
-        temperatura = 20;
-        strcpy_s(tipo, "fuego");
-        color = "rojo";
+        nombre = "";
+        tipo = "fuego";
+        color = "naranja";
+        ataque = 25;
+        vida = 70;
+        vida2 = vida;
     }
-    PokemonFuego(int temp, char n[15], char t[15], string c, int a, int v) : Pokemon(nombre, tipo, color, ataque, vida)
+    PokemonFuego(string name, string type, string Color, int attack, int healthpoints) : Pokemon(nombre, tipo, color, ataque, vida)
     {
-        temperatura = temp;
-        strcpy_s(nombre, n);
-        strcpy_s(tipo, t);
-        color = c;
-        ataque = a;
-        vida = v;
+        nombre = name;
+        tipo = type;
+        color = Color;
+        ataque = attack;
+        vida = healthpoints;
+        vida2 = vida;
     }
     ~PokemonFuego()
     {
-
+       
     }
-    void mostrarPF()
+    void atacar() override
     {
-        cout << "Tu pokemon tiene una temperatura de " << temperatura << " grados celcius\n";
+        ataque = 25;
+        cout << nombre << " ha usado lanzallamas" << endl;
     }
-    void AumentarTemperatura()
+    void atacarfuerte() override
     {
-        temperatura += 30;
-        cout << "Tu pokemon aumento su temperatura\n";
+        ataque = 32;
+        cout << nombre << " ha usado bomba ignea" << endl;
     }
-    int gettemperatura() { return temperatura; }
-    void settemperatura(int t) { temperatura = 20; }
+};
+class PokemonPlanta : public Pokemon
+{
+public:
+    PokemonPlanta() :Pokemon()
+    {
+        nombre = "";
+        tipo = "planta";
+        color = "verde";
+        ataque = 18;
+        vida = 80;
+        vida2 = vida;
+    }
+    PokemonPlanta(string name, string type, string Color, int attack, int healthpoints) : Pokemon(nombre, tipo, color, ataque, vida)
+    {
+        nombre = name;
+        tipo = type;
+        color = Color;
+        ataque = attack;
+        vida = healthpoints;
+        vida2 = vida;
+    }
+    ~PokemonPlanta()
+    {
+       
+    }
+    void atacar() override
+    {
+        ataque = 18;
+        cout << nombre << " ha usado hoja afilada" << endl;
+    }
+    void atacarfuerte() override
+    {
+        ataque = 25;
+        cout << nombre << " ha usado raiz mortifera" << endl;
+    }
 };
 class PokemonElectrico : public Pokemon
 {
-    int voltaje;
-    int corriente;
-    int potencia;
 public:
-    PokemonElectrico() : Pokemon()
+    PokemonElectrico() :Pokemon()
     {
-        voltaje = 100;
-        corriente = 25;
-        potencia = 200;
-        strcpy_s(tipo, "electrico");
+        nombre = "";
+        tipo = "eletrico";
         color = "amarillo";
+        ataque = 22;
+        vida = 78;
+        vida2 = vida;
     }
-    PokemonElectrico(int vol, int cor, int po, char n[15], char t[15], string c, int a, int v) : Pokemon(nombre, tipo, color, ataque, vida)
+    PokemonElectrico(string name, string type, string Color, int attack, int healthpoints) : Pokemon(nombre, tipo, color, ataque, vida)
     {
-        voltaje = vol;
-        corriente = cor;
-        potencia = po;
-        strcpy_s(nombre, n);
-        strcpy_s(tipo, t);
-        color = c;
-        ataque = a;
-        vida = v;
+        nombre = name;
+        tipo = type;
+        color = Color;
+        ataque = attack;
+        vida = healthpoints;
+        vida2 = vida;
     }
     ~PokemonElectrico()
     {
-
+        
     }
-    void mostrarPE()
+    void atacar() override
     {
-        cout << "Tu pokemon tiene un voltaje de " << voltaje << " voltios\n";
-        cout << "Una corriente de " << corriente << " amperes\n";
-        cout << " Y una potencia de " << potencia << " Joules\n";
+        ataque = 22;
+        cout << nombre << " ha usado trueno" << endl;
     }
-    void PrenderFoco()
+    void atacarfuerte() override
     {
-        cout << "Has comandado a tu pokemon a prender un foco\n";
-        voltaje += 10;
-        corriente = voltaje / 4;
-        potencia = voltaje * 2;
+        ataque = 28;
+        cout << nombre << " ha usado tormenta electrica" << endl;
     }
-    int getvoltaje() { return voltaje; }
-    int getcorriente() { return corriente; }
-    int getpotencia() {}
 };
-int main()
+
+
+ void sanar(Pokemon* pokemon1)
 {
-    char AuxPA[15];
-    strcpy_s(AuxPA, "Greninja");
-    char Auxt[15];
-    strcpy_s(Auxt, "agua");
+     int vida = pokemon1->getvida();
 
-    Pokemon squirtle;
-    squirtle.mostrar();
-    squirtle.sanar();
-
-    PokemonAgua Greninja;
-    Greninja.setnombre(AuxPA);
-    Greninja.settipo(Auxt);
-    Greninja.setataque(60);
-    Greninja.setvida(120);
-    Greninja.mostrar();
-    Greninja.mostrarPA();
-    Greninja.nadar();
-    Greninja.mostrarPA();
-
-    char NomPP[15];
-    strcpy_s(NomPP, "Bulbasour");
-    PokemonPlanta Bulbasour;
-    Bulbasour.setnombre(NomPP);
-    Bulbasour.setataque(60);
-    Bulbasour.setvida(120);
-    Bulbasour.mostrar();
-    Bulbasour.mostrarPP();
-    Bulbasour.fotosintesis();
-
-    char NomPF[15];
-    strcpy_s(NomPF, "Charizard");
-    PokemonFuego Charizard;
-    Charizard.setnombre(NomPF);
-    Charizard.setataque(100);
-    Charizard.setvida(150);
-    Charizard.mostrar();
-    Charizard.mostrarPF();
-    Charizard.AumentarTemperatura();
-    Charizard.mostrarPF();
-
-    char NomPE[15];
-    strcpy_s(NomPE, "Pikachu");
-    PokemonElectrico Pikachu;
-    Pikachu.setnombre(NomPE);
-    Pikachu.setataque(90);
-    Pikachu.setvida(90);
-    Pikachu.mostrar();
-    Pikachu.mostrarPE();
-    Pikachu.PrenderFoco();
-    Pikachu.mostrarPE();
-
+    pokemon1->setvida(vida += 50);
+    if (pokemon1->getvida() > pokemon1->getvida2())
+    {
+        pokemon1->setvida(pokemon1->getvida2());
+    }
+    cout << "El pokemon " << pokemon1->getnombre() << " se ha curado y ahora su vida es de " <<  pokemon1->getvida() << "\n";
 }
 
+ void Ataquenormal(Pokemon* pokemon1, Pokemon* pokemon2)
+ {
+     pokemon1->atacar();
+     pokemon2->setvida(pokemon2->getvida() - pokemon1->getataque());
+     cout << "la vida de " << pokemon2->getnombre() << " es " << pokemon2->getvida() << endl;
+ }
+ void AtaqueFuerte(Pokemon* pokemon1, Pokemon* pokemon2, int random)
+ {
+     if (random <= 50) {
+         std::cout << pokemon1->getnombre() << " ha fallado\n";
+     }
+     else {
+         pokemon1->atacarfuerte();
+         pokemon2->setvida(pokemon2->getvida() - pokemon1->getataque());
+         std::cout << "El ataque fue efectivo y ahora " << pokemon2->getnombre() << " tiene " << pokemon2->getvida() << " puntos de vida\n";
+     }
+ }
+
+ void ganador(Pokemon* pokemon1, Pokemon* pokemon2)
+ {
+     if (pokemon1->getvida() > pokemon2->getvida()) {
+         cout << "El pokemon " << pokemon1->getnombre() << " ha resultado victorioso" << endl;
+         Sleep(3885);
+     }
+     else {
+
+         cout << "El pokemon " << pokemon2->getnombre() << " ha resultado victorioso" << endl;
+         Sleep(3885);
+
+     }
+     
+ }
+
+
+ int main()
+ {
+     bool eleccion = false;
+     int numeropokemon = 4;
+     int numeroeleccion = 3;
+     int victoria = 0, acertar = 0, cura = 3, cura2 = 3;
+     srand(time(NULL));
+
+     Pokemon* peleador = new Pokemon[2];
+
+
+     PokemonAgua* greninja = new PokemonAgua();
+     greninja->setnombre("greninja");
+
+     PokemonFuego* charizard = new PokemonFuego();
+     charizard->setnombre("charizard");
+
+     PokemonPlanta* bulbasaur = new PokemonPlanta();
+     bulbasaur->setnombre("bulbasaur");
+
+     PokemonElectrico* pikachu = new PokemonElectrico();
+     pikachu->setnombre("pikachu");
+
+     vector<Pokemon*> Combatiente;
+
+     do {
+         std::cout << "---------------------------------\n";
+         std::cout << "|      Escoge a un pokemon      |\n";
+         std::cout << "|       1.- para Greninja       |\n";
+         std::cout << "|       2.- para Bulbasaur      |\n";
+         std::cout << "|       3.- para Charizard      |\n";
+         std::cout << "|       4.- para Pikachu        |\n";
+         std::cout << "---------------------------------\n";
+         cin >> numeropokemon;
+         switch (numeropokemon) {
+         case 1:
+             greninja->mostrar();
+             cout << "Seguro de tu eleccion? (1 para si y 0 para no)" << endl;
+             cin >> eleccion;
+             if (eleccion != 1) {
+                 system("CLS");
+                 break;
+             }
+             system("CLS");
+             peleador[0] = *greninja;
+             Combatiente.push_back(greninja);
+             break;
+         case 2:
+             bulbasaur->mostrar();
+             cout << "Seguro de tu eleccion? (1 para si y 0 para no)" << endl;
+             cin >> eleccion;
+             if (eleccion != 1) {
+                 system("CLS");
+                 break;
+             }
+             system("CLS");
+             Combatiente.push_back(bulbasaur);
+             break;
+         case 3:
+             charizard->mostrar();
+             cout << "Seguro de tu eleccion? (1 para si y 0 para no)" << endl;
+             cin >> eleccion;
+             if (eleccion != 1) {
+                 system("CLS");
+                 break;
+             }
+             system("CLS");
+             Combatiente.push_back(charizard);
+             break;
+         case 4:
+             pikachu->mostrar();
+             cout << "Seguro de tu eleccion? (1 para si y 0 para no)" << endl;
+             cin >> eleccion;
+             if (eleccion != 1) {
+                 system("CLS");
+                 break;
+             }
+             system("CLS");
+             Combatiente.push_back(pikachu);
+             break;
+         default:
+             cout << "Escoge una opcion valida\n";
+             eleccion = 0;
+             system("CLS");
+             break;
+         }
+     } while (eleccion != true);
+     int tupokemon = numeropokemon;
+     do {
+         numeropokemon = rand() % (4 - 1);
+     } while (numeropokemon == tupokemon);
+     switch (numeropokemon) {
+     case 1:
+         peleador[1] = *greninja;
+         Combatiente.push_back(greninja);
+         Combatiente[1]->mostrarContricante();
+         break;
+     case 2:
+         Combatiente.push_back(bulbasaur);
+         Combatiente[1]->mostrarContricante();
+         break;
+     case 3:
+         Combatiente.push_back(charizard);
+         Combatiente[1]->mostrarContricante();
+         break;
+     case 4:
+         Combatiente.push_back(pikachu);
+         Combatiente[1]->mostrarContricante();
+         break;
+     default:
+         Combatiente.push_back(pikachu);
+         Combatiente[1]->mostrarContricante();
+         break;
+     }
+     do {
+         do {
+             std::cout << "-------------------------------------\n";
+             std::cout << "|          Escoge a una accion       |\n";
+             std::cout << "|       1.- Ataque normal (100%)     |\n";
+             std::cout << "|       2.- Ataque fuerte (50%)      |\n";
+             std::cout << "|       3.- Curar                    |\n";
+             std::cout << "--------------------------------------\n";
+             cin >> numeroeleccion;
+             switch (numeroeleccion) {
+             case 1:
+                 Ataquenormal(Combatiente[0], Combatiente[1]);
+                 break;
+             case 2:
+                 acertar = rand() % 101;
+                 AtaqueFuerte(Combatiente[0], Combatiente[1], acertar);
+                 break;
+             case 3:
+                 cura -= 1;
+                 if (cura <= 0) {
+                     cout << "Te has quedado sin medicina, asi que solo atacaras \n";
+                     Ataquenormal(Combatiente[0], Combatiente[1]);
+                 }
+                 else {
+                     sanar(Combatiente[0]);
+                 }
+                 break;
+             default:
+                 system("CLS");
+                 cout << "escoge una opcion valida\n";
+                 victoria = 0;
+             }
+         } while (numeroeleccion > 3);
+             if (Combatiente[1]->getvida() < 30) {
+                 numeroeleccion = 3;
+             }
+             else {
+                 numeroeleccion = 1 + rand() % (3 - 1);
+             }
+             switch (numeroeleccion)
+             {
+             case 1: 
+                 if (Combatiente[1]->getvida() <= 0) {
+                     std::cout << "Fin de la batalla";
+                     
+                 }
+                 else {
+                     Ataquenormal(Combatiente[1], Combatiente[0]);
+                 }
+                 break;
+             case 2:
+                 if (Combatiente[1]->getvida() <= 0) {
+                     std::cout << "Fin de la batalla";
+                     
+                 }
+                 else {
+                     acertar = rand() % 101;
+                     AtaqueFuerte(Combatiente[1], Combatiente[0], acertar);
+                 }
+                 break;
+             case 3:
+                 if (Combatiente[1]->getvida() <= 0) {
+                     std::cout << "Fin de la batalla";
+                     
+                     break;
+                 }
+                 else {
+                     cura2 -= 1;
+                     if (cura2 <= 0) {
+                         cout << "El contricante se ha quedado sin medicina, asi que solo atacara \n";
+                         Ataquenormal(Combatiente[1], Combatiente[0]);
+                     }
+                     else {
+                         sanar(Combatiente[1]);
+                     }
+                 }
+                 break;
+             default:
+                 if (Combatiente[1]->getvida() <= 0) {
+                     std::cout << "Fin de la batalla";
+                     
+                 }
+                 else {
+                     Ataquenormal(Combatiente[1], Combatiente[0]);
+                 }
+                 break;
+             }
+             Sleep(3885);
+             system("CLS");
+         } while (Combatiente[0]->getvida() > 1 && Combatiente[1]->getvida() > 1);
+         ganador(Combatiente[0], Combatiente[1]);
+         delete greninja;
+         delete charizard;
+         delete bulbasaur;
+         delete pikachu;
+     }
 
